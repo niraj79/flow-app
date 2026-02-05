@@ -6,7 +6,7 @@ import { MapPin, Navigation, Clock, Star, User, CreditCard, ChevronRight, Zap } 
 export default function RideShareApp() {
   const [activeTab, setActiveTab] = useState('ride');
   const [pickup, setPickup] = useState('');
-  const [selectedRide, setSelectedRide] = useState<number | null>(null);
+  const [destination, setDestination] = useState('');
   const [selectedRide, setSelectedRide] = useState(null);
   const [isAnimated, setIsAnimated] = useState(false);
 
