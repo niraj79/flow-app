@@ -1,17 +1,18 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { MapPin, Navigation, Clock, Star, User, CreditCard, ChevronRight, Zap } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { MapPin, Navigation, Clock, User, CreditCard, ChevronRight, Zap } from 'lucide-react';
 
 export default function RideShareApp() {
   const [activeTab, setActiveTab] = useState('ride');
   const [pickup, setPickup] = useState('');
-  const [selectedRide, setSelectedRide] = useState<number | null>(null);
+  const [destination, setDestination] = useState('');
   const [selectedRide, setSelectedRide] = useState(null);
   const [isAnimated, setIsAnimated] = useState(false);
 
   useEffect(() => {
-    setTimeout(() => setIsAnimated(true), 100);
+    const timer = setTimeout(() => setIsAnimated(true), 100);
+    return () => clearTimeout(timer);
   }, []);
 
   const rideOptions = [
@@ -46,20 +47,17 @@ export default function RideShareApp() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 text-white font-sans relative overflow-hidden">
-      {/* Animated background effects */}
       <div className="absolute inset-0 opacity-20">
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-cyan-500 rounded-full filter blur-3xl animate-pulse"></div>
         <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-600 rounded-full filter blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
       </div>
 
-      {/* Main container */}
       <div className="relative max-w-md mx-auto min-h-screen flex flex-col">
-        {/* Header */}
         <header className={`p-6 transition-all duration-700 ${isAnimated ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}>
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent" 
-                  style={{fontFamily: 'system-ui, -apple-system, sans-serif', fontWeight: '800', letterSpacing: '-0.02em'}}>
+                  style={{fontFamily: 'system-ui, -apple-system, sans-serif', fontWeight: 800, letterSpacing: '-0.02em'}}>
                 Flow
               </h1>
               <p className="text-cyan-300/70 text-sm mt-1">Move with the current</p>
@@ -70,7 +68,6 @@ export default function RideShareApp() {
           </div>
         </header>
 
-        {/* Tab Navigation */}
         <div className={`px-6 mb-6 transition-all duration-700 delay-100 ${isAnimated ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}>
           <div className="flex bg-white/5 backdrop-blur-md rounded-2xl p-1.5 border border-white/10">
             <button 
@@ -96,7 +93,6 @@ export default function RideShareApp() {
           </div>
         </div>
 
-        {/* Location Input */}
         <div className={`px-6 mb-6 space-y-3 transition-all duration-700 delay-200 ${isAnimated ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}>
           <div className="relative group">
             <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-2xl blur-sm opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
@@ -132,18 +128,16 @@ export default function RideShareApp() {
           </div>
         </div>
 
-        {/* Ride Options */}
         <div className={`flex-1 px-6 pb-6 transition-all duration-700 delay-300 ${isAnimated ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
           <h3 className="text-lg font-semibold mb-4 text-cyan-300/90">Choose your ride</h3>
           <div className="space-y-3">
-            {rideOptions.map((ride, index) => (
+            {rideOptions.map((ride) => (
               <div 
                 key={ride.id}
                 onClick={() => setSelectedRide(ride.id)}
                 className={`relative group cursor-pointer transition-all duration-300 ${
                   selectedRide === ride.id ? 'scale-[1.02]' : 'hover:scale-[1.01]'
                 }`}
-                style={{animationDelay: `${index * 100}ms`}}
               >
                 {selectedRide === ride.id && (
                   <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-2xl blur-md opacity-50"></div>
@@ -184,9 +178,7 @@ export default function RideShareApp() {
           </div>
         </div>
 
-        {/* Bottom Action */}
         <div className={`p-6 border-t border-white/10 bg-slate-900/80 backdrop-blur-xl transition-all duration-700 delay-400 ${isAnimated ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-          {/* Payment Method */}
           <div className="flex items-center justify-between mb-4 p-3 rounded-xl bg-white/5 border border-white/10">
             <div className="flex items-center gap-3">
               <CreditCard size={18} className="text-cyan-400" />
@@ -195,7 +187,6 @@ export default function RideShareApp() {
             <ChevronRight size={18} className="text-cyan-300/50" />
           </div>
 
-          {/* Request Ride Button */}
           <button 
             disabled={!selectedRide || !pickup || !destination}
             className={`w-full py-4 rounded-2xl font-bold text-lg transition-all duration-300 ${
